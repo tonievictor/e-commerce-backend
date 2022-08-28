@@ -1,46 +1,53 @@
 # E-COMMERCE API
 
-
-
-
 ## Description: 
-This API was built with Nodejs, Express, and MongoDB with several routes and endpoints for different functions which include; the Suggestion Route that contains the suggest endpoint for suggesting an item, the suggested endpoint that is used to get all the suggestions made by the client. It also contains the endpoint for suggesting an Item by categories as specified in the parameter in the URL.
+This API was built with Nodejs, Express, and MongoDB and it comes with the full functionality of an e-commerce application. It contains a product route, user route, stripe payment route that can be used to process payment. 
 
-The Project also contains the Authentication Route that consists of all the Authentication with the following routes defined; the Sign Up Route that uses the Bcrypt Library to authenticate the Users password and json web token to authorize the User, the Login Route that ensures the User is authenticated before allowing the User to sign up.
+This Project also contains the Authentication Route that consists of all the Authentication with the following routes defined; the Sign Up Route that uses the CryptoJs Hashing Library to authenticate the Users password and json web token to authorize the User, the Login Route that ensures the User is authenticated before allowing the User to sign up.
 
 
-
-A cryptocurrency app that keeps you updated with the latest news and information about crytopcurrencies.
-
-## Live Demo
-
- Click [Here](https://tonie-crypto-app.netlify.app/) to display the live demo of this Application
+## Live demo
+The UI of this project is still in production and has not been completed. I'm currently working on it, You can check in some other time.
 
 ## Technology Stack and Resources
 
-* React JS
+* Node JS
 
-* Antd design libary
+* Express JS
 
-* Reduxtoolkit and RTKQuery (for state Management)
+* MongoDB
 
-* Coin Ranking Api from Rapid Api Hub (for crytocurrency details)
+* Mongoose
 
-* Bing News Search Api from Rapid Api Hub (for cryptocurrency news)
+* CryptoJs Hashing Libary
+
+* Json Web Token (JWT)
+
+* Stripe (For payment processing)
 
 ## Features
 
-* A home page that displays the Top 10 Cryptocurrencies in the world by market cap and also displays the Top 10 crypto currency news.
+* A user route that can be used to Update user information, Delete user information, Get user information, get all users and users statistics which is important as this project can be linked to an admin dashboard
 
-* A news page that displays over 50 Cryptocurrency news and it also constains a search bar that can be used to filter out news based on a specific query.
+* A Product route that can be used to Update and delete product information. This can only be done by the admin. It can also be used to get all products.
 
-* A cryptocurrency page that displays the top 100 cryptocurrencies along side it's details in the world and it also contains a search bar to filter the cryptocurrencies.
+* A Stripe route manages the payment process.
 
-* A cryptodetails page that displays the individual details of a selected crytocurrency. It shows details like the history of a currency, the market cap and other details that are specific to that currency.
+* An order route that can be used to create, update, delete and get user order. It can also be used to caculate monthly income on the admin side of things 
+
+* A cart route that can be used to create, update, delete and get user cart.
+
+* An order route that can be used to create, update, delete and get user order. It can also be used to caculate monthly income on the admin side of things 
+
+* An authentication route that handles user Signup and Login.
+
+* A Verification route that verifies user information so that they can be able to perform certian functions like delete or update their information. It also verifies an admin too.
+
+* A User, Cart, Order and Product Models. This defines our Mongo database.
 
 ## Purpose
 
-I was able to practicalize working with Reactjs and Redux on this project. I also took a deep dive into API and it's methods in ReactJS.
+I was able to practicalize working with Nodejs, MongoDB, Express, Stripe and several other libaries. It was a fun project and I really learnt so much!
 
 ## Setup 
 
@@ -52,12 +59,12 @@ I was able to practicalize working with Reactjs and Redux on this project. I als
 
 4. Run ``` npm install ``` on your terminal to install the necessary dependencies
 
-5. Make sure to include your own unique API details.
+5. Make sure to include your own unique API details (ie Stripe and JWT).
 
 ## Requirements
 
 * An IDE (VSCode, Bracket, Sublime, Atom etc)
 
-* Basic knowledge of ReactJs and Redux toolkit
+* Basic knowledge of MERN stack
 
-* Basic knowledge in fetching and displaying data from a remote API
+* Being a programmmer 😉
