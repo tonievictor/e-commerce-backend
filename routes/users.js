@@ -3,6 +3,7 @@ const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = requir
 const User = require("../models/User");
 
 const router = require("express").Router();
+const response = require("../utility/response.js");
 
 //UPDATE 
 
@@ -19,10 +20,11 @@ router.put("/:id", verifyTokenAndAuthorization, async (req,res) => {
         },
             {new: true}
         );
-        res.status(200).json(updatedUser);
+        
+        response(res, 200, true, "User successfully updated", updatedUser);
 
     } catch (err) {
-        res.status(500).json(err);
+        response(res, 500, false, "Internal server error", err.message);
     }
 });
 
@@ -30,9 +32,10 @@ router.put("/:id", verifyTokenAndAuthorization, async (req,res) => {
 router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
     try {
         await User.findByIdAndDelete(req.params.id)
-        res.status(200).json("User has been deleted...")
+        
+        response(res, 204, true, "User deleted successfully");
     } catch (err) {
-        res.status(500).json(err)
+      response(res, 500, false, "Internal server error", err.message);
     }
 });
 
@@ -43,9 +46,9 @@ router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
         const user= await User.findById(req.params.id)
         const { password, ...others} = user._doc;
 
-        res.status(200).json({ others });
+        response(res, 200, true, "Successfully fetched user", {others});
     } catch (err) {
-        res.status(500).json(err)
+      response(res, 500, false, "Internal server error", err.message);
     }
 });
 
@@ -54,9 +57,9 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
     const query = req.query.new
     try {
         const users= query ? await User.find().sort({ _id: -1}).limit(5) : await User.find();
-        res.status(200).json(users);
+        response(res, 200, true, "Successfully fetched all users", users);
     } catch (err) {
-        res.status(500).json(err)
+      response(res, 500, false, "Internal server error", err.message);
     }
 });
 
@@ -83,9 +86,9 @@ router.get("/stats", verifyTokenAndAdmin, async (req, res) => {
             }
         ]);
 
-        res.status(200).json(data);
-    } catch (err) {
-        res.status(500).json(err)
+      response(res, 200, true, "Successfully fetched user stats", data);
+    } catch (err) { 
+      response(res, 500, false, "Internal server error", err.message);
     }
 })
 
