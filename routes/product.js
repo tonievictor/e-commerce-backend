@@ -7,6 +7,7 @@ const {
 const Product = require("../models/Product");
 
 const router = require("express").Router();
+const response = require("../utility/response.js");
 
 //CREATE PRODUCT
 router.post("/", verifyTokenAndAdmin, async (req, res) => {
@@ -14,9 +15,9 @@ router.post("/", verifyTokenAndAdmin, async (req, res) => {
 
   try {
     const savedProduct = await newProduct.save();
-    res.status(200).json(savedProduct);
+    response(res, 201, true, "Succesfully created product");
   } catch (err) {
-    res.status(500).json(err);
+    response(res, 500, false, "Internal server error", err.message);
   }
 });
 
@@ -31,9 +32,9 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
       },
       { new: true }
     );
-    res.status(200).json(updatedProduct);
+    response(res, 200, true, "Succesfully updated product", updatedProduct);
   } catch (err) {
-    res.status(500).json(err);
+    response(res, 500, false, "Internal server error", err.message);
   }
 });
 
@@ -41,9 +42,9 @@ router.put("/:id", verifyTokenAndAdmin, async (req, res) => {
 router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     await Product.findByIdAndDelete(req.params.id);
-    res.status(200).json("Product has been deleted...");
+    response(res, 204, true, "Product deleted Succesfully");
   } catch (err) {
-    res.status(500).json(err);
+    response(res, 500, false, "Internal server error", err.message);
   }
 });
 
@@ -52,9 +53,9 @@ router.get("/find/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
 
-    res.status(200).json(product);
+    response(res, 200, true, "Succesfully fetched product", product);
   } catch (err) {
-    res.status(500).json(err);
+    response(res, 500, false, "Internal server error", err.message);
   }
 });
 
@@ -77,9 +78,9 @@ router.get("/", async (req, res) => {
       products = await Product.find();
     }
 
-    res.status(200).json(products);
+    response(res, 200, true, "Succesfully fetched all products", products);
   } catch (err) {
-    res.status(500).json(err);
+    response(res, 500, false, "Internal server error", err.message);
   }
 });
 
