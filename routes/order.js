@@ -3,6 +3,7 @@ const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = requir
 const Order = require("../models/Order");
 
 const router = require("express").Router();
+const response =  require("../utility/response.js");
 
 
 //CREATE USER ORDER
@@ -12,9 +13,9 @@ router.post("/", verifyToken, async (req, res) => {
 
     try {
         const savedOrder = await newOrder.save();
-        res.status(200).json(savedOrder);
+        response(res, 201, true, "Ordered created successfully", savedOrder );
     } catch (err) {
-        res.status(500).json(err);
+        response(res, 500, false, "Internal server error", err.message);
     }
 });
 
@@ -30,10 +31,10 @@ router.put("/:id", verifyTokenAndAdmin, async (req,res) => {
         },
             {new: true}
         );
-        res.status(200).json(updatedOrder);
+        response(res, 200, true, "Order successfully updated", updatedOrder);
 
     } catch (err) {
-        res.status(500).json(err);
+      response(res, 500, false, "Internal server error", err.message);
     }
 });
 
@@ -44,9 +45,9 @@ router.put("/:id", verifyTokenAndAdmin, async (req,res) => {
 router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
     try {
         await Order.findByIdAndDelete(req.params.id)
-        res.status(200).json("Order has been deleted...")
-    } catch (err) {
-        res.status(500).json(err)
+        response(res, 204, true, "Order has been deleted successfully");
+    } catch (err) {  
+      response(res, 500, false, "Internal server error", err.message);
     }
 });
 
@@ -55,9 +56,9 @@ router.delete("/:id", verifyTokenAndAdmin, async (req, res) => {
 router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
     try {
       const orders = await Order.find({ userId: req.params.userId });
-      res.status(200).json(orders);
+      response(res, 200, true, "User's order fetched successfully", orders);
     } catch (err) {
-      res.status(500).json(err);
+      response(res, 500, false, "Internal server error", err.message);
     }
   });
 
@@ -65,9 +66,9 @@ router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
 router.get("/", verifyTokenAndAdmin, async (req, res) => {
     try {
         const orders = await Order.find()
-        res.status(200).json(orders)
+        response(res, 200, true, "Orders fetched successfully", orders);
     } catch (err) {
-        res.status(500).json(err);
+        response(res, 500, false, "Internal server error", err.message);
     }
 });
 
@@ -93,9 +94,9 @@ router.get("/income", verifyTokenAndAdmin, async (req, res) => {
           },
         },
       ]);
-      res.status(200).json(income);
+      response(res, 200, true, "Monthly income fetched correctly", income);
     } catch (err) {
-      res.status(500).json(err);
+      response(res, 500, false, "Internal server error", err.message);
     }
   });
 
