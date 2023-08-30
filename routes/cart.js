@@ -3,6 +3,7 @@ const { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin } = requir
 const Cart = require("../models/Cart");
 
 const router = require("express").Router();
+const response = require("../utility/response.js")
 
 
 //CREATE USER CART
@@ -12,9 +13,9 @@ router.post("/", verifyToken, async (req, res) => {
 
     try {
         const savedCart = await newCart.save();
-        res.status(200).json(savedCart);
+        response(res, 201, true, "Cart Created", savedCart);
     } catch (err) {
-        res.status(500).json(err);
+        response(res, 500, false, "Internal Server Error", err.message);
     }
 });
 
@@ -30,10 +31,10 @@ router.put("/:id", verifyTokenAndAuthorization, async (req,res) => {
         },
             {new: true}
         );
-        res.status(200).json(updatedCart);
+        response(res, 200, true, "Cart Updated", updatedCart);
 
     } catch (err) {
-        res.status(500).json(err);
+      response(res, 500, false, "Internal Server Error", err,message);
     }
 });
 
@@ -44,9 +45,9 @@ router.put("/:id", verifyTokenAndAuthorization, async (req,res) => {
 router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
     try {
         await Cart.findByIdAndDelete(req.params.id)
-        res.status(200).json("Cart has been deleted...")
+        response(res, 204, true, "Cart succesfuly deleted");
     } catch (err) {
-        res.status(500).json(err)
+      response(res, 500, false, "Internal Server Error", err.message);
     }
 });
 
@@ -54,9 +55,9 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
 router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
     try {
       const cart = await Cart.findOne({ userId: req.params.userId });
-      res.status(200).json(cart);
+      response(res, 200, true, "Cart succesfuly fetched", cart);
     } catch (err) {
-      res.status(500).json(err);
+      response(res, 500, false, "Internal Server Error", err.message);
     }
   });
 
@@ -66,8 +67,9 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
     try {
         const carts = await Cart.find()
         res.status(200).json(carts)
+        response(res, 200, true, "Fetched all carts succesfuly", carts);
     } catch (err) {
-        res.status(500).json(err);
+        response(res, 500, false, "Internal Server Error", err.message);
     }
 })
 

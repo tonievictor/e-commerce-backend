@@ -16,7 +16,7 @@ router.post("/register", async (req, res) => {
 
   try {
     const savedUser = await newUser.save();
-    response(res, 200, true, 'User successfully registered', savedUser);
+    response(res, 201, true, 'User successfully registered', savedUser);
   } catch (err) {
     response(res, 500, false, 'Internal Sever Error', err.message);
   }
