@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const response = require("../utility/response.js");
 
 //UPDATE USER INFORMATION
 const verifyToken = (req,res,next) => {
@@ -11,7 +12,7 @@ const verifyToken = (req,res,next) => {
             next();
         })
     } else{
-        return res.status(401).json("You are not authenticated");
+        return response(res, 401, false, "You are not allowed to do this");
     }
 };
 
@@ -21,7 +22,7 @@ const verifyTokenAndAuthorization = (req,res,next) => {
         if(req.user.id === req.params.id || req.user.isAdmin) {
             next();
         }else{
-            res.status(403).json("You are not allowed to do this")
+            response(res, 403, false, "You are not allowed to do this");
         }
     });
 };
@@ -32,7 +33,7 @@ const verifyTokenAndAdmin = (req,res,next) => {
         if(req.user.isAdmin) {
             next();
         } else{
-            res.status(403).json("You are not allowed to do this")
+            response(res, 403, false, "You are not allowed to do this");
         }
     });
 };
